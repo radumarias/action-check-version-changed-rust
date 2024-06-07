@@ -9,10 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Fetch latest release version
-        id: fetch-latest-release
-        uses: reloc8/action-latest-release-version@1.0.0
-      
       - id: check_version
         uses: radumarias/action-check-version@main
 
