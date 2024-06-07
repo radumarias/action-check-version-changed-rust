@@ -1,6 +1,8 @@
 name: check-version
 description: Checks if the version has changed since last release
 author: 'radumarias'
+icon: activity
+color: black
 
 #inputs:
 #  type:
