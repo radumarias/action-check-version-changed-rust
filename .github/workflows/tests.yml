@@ -13,9 +13,9 @@ jobs:
         uses: radumarias/action-check-version-changed-rust@main
 
       - run: |
-          echo "Prev version ${{ steps.check_version.prev_version }}"
-          echo "Version ${{ steps.check_version.version }}"
-          echo "Version has changed ${{ steps.check_version.changed }}"
+          echo "Prev version ${{ steps.check_version.outputs.prev_version }}"
+          echo "Version ${{ steps.check_version.outputs.version }}"
+          echo "Version has changed ${{ steps.check_version.outputs.changed }}"
   
       - name: Execute if version has changed
         if: ${{ steps.check_version.outputs.changed }}
@@ -23,9 +23,9 @@ jobs:
 
       - name: Tests
         run: |
-          prev_version=$( echo "${{ steps.check_version.prev_version }}" )
-          version=$( echo "${{ steps.check_version.version }}" )
-          changed=$( echo "${{ steps.check_version.changed }}" )
+          prev_version=${{ steps.check_version.prev_version }}
+          version=${{ steps.check_version.version }}
+          changed=${{ steps.check_version.changed }}
           
           echo "Prev version ${prev_version}"
           echo "Version ${version}"
