@@ -1,4 +1,4 @@
-# Checks if the version has changed since last release for a Rust project
+# Checks if the version has changed since the last release for a Rust project
 
 <!--
 # Inputs
