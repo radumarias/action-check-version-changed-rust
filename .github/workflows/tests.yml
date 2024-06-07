@@ -23,10 +23,10 @@ jobs:
           echo "Version has changed $changed"
 
           if [[ "${ version }" != "0.42.0" ]]; then
-            echo "Invalid `version`"
+            echo "Invalid 'version'"
             exit 1
           fi
           if [[ "${ changed }" != true ]]; then
-            echo "Invalid `changed`"
+            echo "Invalid 'changed'"
             exit 1
           fi
