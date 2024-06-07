@@ -30,9 +30,12 @@ runs:
       run: |
         git fetch --tags
         git fetch --prune --unshallow || true
+        export LATEST_RELEASE_VERSION=$(git describe --abbrev=0 --tags)
+        echo "::set-output name=latest-release::$(echo $LATEST_RELEASE_VERSION)"
+        echo The latest release version is \"$LATEST_RELEASE_VERSION\".
 
         # Remove the first letter if it's "v"  
-        old_version=$(git describe --abbrev=0 --tags) | sed 's/^v//'
+        old_version=echo "$LATEST_RELEASE_VERSION" | sed 's/^v//'
         # TODO: adapt per ${{ inputs.type }}
         new_version=$(grep '^version\s*=' Cargo.toml | sed 's/version\s*=\s*"\(.*\)"/\1/')
         old_version=${old_version:-$new_version}
