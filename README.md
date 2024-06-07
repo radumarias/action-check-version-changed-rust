@@ -6,9 +6,9 @@ Not useful when you create releases manualy and and trigger deploy/publish from 
 An example of such a workflow could be this:
 - on push
     - run tests
-        - build AUR image
+        - build AUR image (cargo aur)
             - if version changed 
-                - create release, attach binaries as artifact, url used for PKGBUILD to distribute the binaries
+                - create release, attach binaries as artifact, url used in PKGBUILD to distribute the binaries
                     - publish to AUR
                     - publish to crates.io
         - build docker image
