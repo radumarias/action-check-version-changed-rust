@@ -34,7 +34,7 @@ runs:
         echo The latest release version is \"$LATEST_RELEASE_VERSION\".
 
         # Remove the first letter if it's "v"
-        echo "sed"        
+        echo "sed" && sed
         old_version=echo "$LATEST_RELEASE_VERSION" | sed 's/^v//'
         # TODO: adapt per ${{ inputs.type }}
         echo "grep, sed"
