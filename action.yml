@@ -39,7 +39,7 @@ runs:
           git fetch --prune --unshallow || true
           # Remove the first letter if it's "v"
           old_version=$( git describe --abbrev=0 --tags | sed 's/^v//' )
-          new_version=$(grep '^version\s*=' Cargo.toml | sed 's/version\s*=\s*"\(.*\)"/\1/')
+          new_version=$( grep '^version\s*=' Cargo.toml | sed 's/version\s*=\s*"\(.*\)"/\1/' )
           old_version=${old_version:-$new_version}
           
           echo "Old Version: $old_version"
@@ -53,6 +53,6 @@ runs:
             echo "changed=false" >> $GITHUB_OUTPUT
           fi
           echo "old_version=$old_version" >> $GITHUB_OUTPUT
-          echo "latest-release=$new_version" >> $GITHUB_OUTPUT
           echo "new_version=$new_version" >> $GITHUB_OUTPUT
+          echo "latest-release=$new_version" >> $GITHUB_OUTPUT
         shell: bash
