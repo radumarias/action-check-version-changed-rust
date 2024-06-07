@@ -7,9 +7,10 @@ An example of such a workflow could be this:
 - on push
     - run tests
         - build AUR image
-            - create release, attach binaries as artifact, url used for PKGBUILD to distribute the binaries
-                - publish to AUR
-                - publish to crates.io
+            - if version changed 
+                - create release, attach binaries as artifact, url used for PKGBUILD to distribute the binaries
+                    - publish to AUR
+                    - publish to crates.io
         - build docker image
             - on new version push it to DOcker Hub
 
