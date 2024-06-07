@@ -1,6 +1,7 @@
 # Checks if the version has changed since last release
 
 # Inputs
+
 | Name | Type | Required | Description |
 | ---- | ---- | -------- | ----------- |
 | type | string | true | Suported values [rust]. In future we might extend to other languages, also we could expose a `version_file` and `version_pattern` to be more extensible
