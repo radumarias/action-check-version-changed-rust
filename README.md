@@ -39,9 +39,9 @@ An example of such a workflow could be this:
     uses: radumarias/actions/check-version@v1
 
     - run: |
-        echo "Prev version ${{ steps.check_version.prev_version }}"
-        echo "Version ${{ steps.check_version.version }}"
-        echo "Version has changed ${{ steps.check_version.changed }}"
+        echo "Prev version ${{ steps.check_version.outputs.prev_version }}"
+        echo "Version ${{ steps.check_version.outputs.version }}"
+        echo "Version has changed ${{ steps.check_version.outputs.changed }}"
 
     - name: Execute if version has changed
       if: ${{ steps.check_version.outputs.changed }}
