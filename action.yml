@@ -49,3 +49,4 @@ runs:
         fi
         echo "prev_version=$old_version" >> "$GITHUB_OUTPUT"
         echo "version=$new_version" >> "$GITHUB_OUTPUT"
+      shell: zsh
