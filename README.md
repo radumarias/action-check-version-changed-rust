@@ -3,7 +3,15 @@
 Useful in cases when you you want to automatically perform additional steps like creating a release and deploying/publishing the app if version is changed.  
 Not useful when you create releases manualy and and trigger deploy/publish from the release or manually.
 
-An example of such a workflow could be
+An example of such a workflow could be this:
+- on push
+    - run tests
+        - build AUR image
+            - create release, attach binaries as artifact, url used for PKGBUILD to distribute the binaries
+                - publish to AUR
+                - publish to crates.io
+        - build docker image
+            - on new version push it to DOcker Hub
 
 ![workflow](https://github.com/radumarias/action-check-version-changed-rust/blob/ec5403ac571af1979586a79152190aeadf237586/workflow.jpeg?raw=true)
 
