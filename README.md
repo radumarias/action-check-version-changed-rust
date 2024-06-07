@@ -36,7 +36,7 @@ An example of such a workflow could be this:
 
 ```yaml
     - id: check_version
-      uses: radumarias/actions/check-version@v1
+      uses: radumarias/action-check-version-changed-rust@v1
 
     - run: |
         echo "Prev version ${{ steps.check_version.outputs.prev_version }}"
@@ -48,7 +48,7 @@ An example of such a workflow could be this:
 
 ```yaml
     - id: check_version
-      uses: radumarias/actions/check-version@v1
+      uses: radumarias/action-check-version-changed-rust@v1
 
     - name: Execute if version has changed
       if: ${{ steps.check_version.outputs.changed }}
@@ -71,7 +71,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - id: check_version
-        uses: radumarias/actions/check-version@v1
+        uses: radumarias/action-check-version-changed-rust@v1
 
   conditional_job:
     name: Conditonal
