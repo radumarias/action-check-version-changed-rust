@@ -14,7 +14,7 @@ An example of such a workflow could be this:
         - build docker image
             - if version changed push it to Docker Hub
 
-![workflow](https://github.com/radumarias/action-check-version-changed-rust/blob/ec5403ac571af1979586a79152190aeadf237586/workflow.jpeg?raw=true)
+![workflow](https://github.com/radumarias/action-check-version-changed-rust/blob/main/workflow.jpeg?raw=true)
 
 <!--
 # Inputs
