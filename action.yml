@@ -43,15 +43,11 @@ runs:
 
         if [ "$old_version" != "$new_version" ]; then
           echo "Version has changed from $old_version to $new_version"
-          # echo "changed=true" >> "$GITHUB_OUTPUT"
-          echo "::set-output name=changed::true"
+            echo "changed=true" >> $GITHUB_OUTPUT
         else
           echo "Version has not changed"
-          # echo "changed=false" >> "$GITHUB_OUTPUT"
-          echo "::set-output name=changed::false"
+          echo "changed=false" >> $GITHUB_OUTPUT
         fi
-        # echo "prev_version=$old_version" >> "$GITHUB_OUTPUT"
-        echo "::set-output name=prev_version::$old_version"
-        # echo "version=$new_version" >> "$GITHUB_OUTPUT"
-        echo "::set-output name=version::$new_version"        
+        echo "prev_version=$old_version" >> $GITHUB_OUTPUT
+        echo "version=$new_version" >> $GITHUB_OUTPUT
       shell: bash
