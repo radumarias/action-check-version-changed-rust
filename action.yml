@@ -28,22 +28,12 @@ runs:
 #      if: ${{ !contains(fromJson('["rust"]'), inputs.type)  }}
 #      run: exit 1
 
-    # - id: fetch-latest-release-version
-    #   run: |
-    #     git fetch --tags
-    #     git fetch --prune --unshallow || true
-    #     export LATEST_RELEASE_VERSION=$(git describe --abbrev=0 --tags)
-    #     echo "latest-release=$LATEST_RELEASE_VERSION" >> $GITHUB_OUTPUT
-    #     echo The latest release version is \"$LATEST_RELEASE_VERSION\".
-    #   shell: bash
-      
-    - name: Check for version change
       id: check_version
       run: |
         git fetch --tags
         git fetch --prune --unshallow || true
         export LATEST_RELEASE_VERSION=$(git describe --abbrev=0 --tags)
-        echo "latest-release=$LATEST_RELEASE_VERSION" >> $GITHUB_OUTPUT
+        # echo "latest-release=$LATEST_RELEASE_VERSION" >> $GITHUB_OUTPUT
       
         git fetch --tags
         git fetch --prune --unshallow || true
@@ -63,5 +53,6 @@ runs:
           echo "changed=false" >> $GITHUB_OUTPUT
         fi
         echo "prev_version=$old_version" >> $GITHUB_OUTPUT
-        echo "version=$new_version" >> $GITHUB_OUTPUT
+        # echo "version=$new_version" >> $GITHUB_OUTPUT
+        echo "latest-release=$new_version" >> $GITHUB_OUTPUT
       shell: bash
