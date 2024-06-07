@@ -9,8 +9,8 @@ inputs:
     type: string
 outputs:
   changed:
-  type: bool
     description: If the version has changed
+    type: bool
     value: ${{ jobs.check_version.outputs.changed }}
   version:
     description: The current value in version file
