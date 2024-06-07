@@ -9,8 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - run: echo "sed" && sed
-
       - id: check_version
         uses: radumarias/action-check-version@main
 
