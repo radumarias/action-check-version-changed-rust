@@ -10,7 +10,7 @@ author: 'radumarias'
 outputs:
   latest-release:
     description: 'Latest release version'
-    value: ${{ steps.fetch-latest-release-version.outputs.latest-release }}
+    value: ${{ steps.check_version.outputs.latest-release }}
   changed:
     description: 'If the version has changed (type: bool)'
     value: ${{ steps.check_version.outputs.changed }}
@@ -28,14 +28,14 @@ runs:
 #      if: ${{ !contains(fromJson('["rust"]'), inputs.type)  }}
 #      run: exit 1
 
-    - id: fetch-latest-release-version
-      run: |
-        git fetch --tags
-        git fetch --prune --unshallow || true
-        export LATEST_RELEASE_VERSION=$(git describe --abbrev=0 --tags)
-        echo "latest-release=$LATEST_RELEASE_VERSION" >> $GITHUB_OUTPUT
-        echo The latest release version is \"$LATEST_RELEASE_VERSION\".
-      shell: bash
+    # - id: fetch-latest-release-version
+    #   run: |
+    #     git fetch --tags
+    #     git fetch --prune --unshallow || true
+    #     export LATEST_RELEASE_VERSION=$(git describe --abbrev=0 --tags)
+    #     echo "latest-release=$LATEST_RELEASE_VERSION" >> $GITHUB_OUTPUT
+    #     echo The latest release version is \"$LATEST_RELEASE_VERSION\".
+    #   shell: bash
       
     - name: Check for version change
       id: check_version
@@ -43,10 +43,12 @@ runs:
         git fetch --tags
         git fetch --prune --unshallow || true
         export LATEST_RELEASE_VERSION=$(git describe --abbrev=0 --tags)
-        echo The latest release version is \"$LATEST_RELEASE_VERSION\".
-
+        echo "latest-release=$LATEST_RELEASE_VERSION" >> $GITHUB_OUTPUT
+      
+        git fetch --tags
+        git fetch --prune --unshallow || true
         # Remove the first letter if it's "v"
-        old_version=$( echo "$LATEST_RELEASE_VERSION" | sed 's/^v//' )
+        old_version=$( git describe --abbrev=0 --tags | sed 's/^v//' )
         new_version=$(grep '^version\s*=' Cargo.toml | sed 's/version\s*=\s*"\(.*\)"/\1/')
         old_version=${old_version:-$new_version}
         
