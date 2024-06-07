@@ -9,6 +9,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - run: echo "grep"; grep
+
       - id: check_version
         uses: radumarias/action-check-version@main
 
