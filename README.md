@@ -12,7 +12,7 @@ An example of such a workflow could be this:
                     - publish to AUR
                     - publish to crates.io
         - build docker image
-            - on new version push it to DOcker Hub
+            - if version changed push it to Docker Hub
 
 ![workflow](https://github.com/radumarias/action-check-version-changed-rust/blob/ec5403ac571af1979586a79152190aeadf237586/workflow.jpeg?raw=true)
 
