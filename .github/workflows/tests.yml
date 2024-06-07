@@ -14,6 +14,8 @@ jobs:
 
       - name: Tests
         run: |
+          echo " release ${{ steps.check_version.outputs.latest-release }}"
+          
           prev_version=${{ steps.check_version.prev_version }}
           version=${{ steps.check_version.version }}
           changed=${{ steps.check_version.changed }}
