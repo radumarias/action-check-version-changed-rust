@@ -1,12 +1,17 @@
 # Checks if the version has changed since last release.
 
 Inputs:
-- **type** (required): suported values [rust]. In future we might extend to other languages, also we could expose a `version_file` and `version_pattern` to be more extensible
+| Name | Type | Required | Description |
+| ---- | ---- | -------- | ----------- |
+| type | string | true | Suported values [rust]. In future we might extend to other languages, also we could expose a `version_file` and `version_pattern` to be more extensible
 
 Outputs:
-- **changed**: if the version has changed
-- **version**: the current version in version file
-- **prev_version**: what was the previous version
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| changed | bool | If the version has changed
+| version | string | The current version in version file
+| prev_version | string | Last release version
 
 # Example
 
@@ -17,11 +22,7 @@ Outputs:
       type: rust
 
     - run: |
-        prev_version = "${{ steps.check_version.prev_version }}
-        version = "${{ steps.check_version.version }}
-        changed = ${{ steps.check_version.changed }}
-        
-        echo "Prev version $prev_version"
-        echo "Version $version"
-        echo "Version has changed ${{ needs.check_version.changed }}"
+        echo "Prev version ${{ steps.check_version.prev_version }}"
+        echo "Version ${{ steps.check_version.version }}"
+        echo "Version has changed ${{ steps.check_version.changed }}"
 ```
