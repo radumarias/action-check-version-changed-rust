@@ -36,7 +36,7 @@ An example of such a workflow could be this:
 
 ```yaml
     - id: check_version
-    uses: radumarias/actions/check-version@v1
+      uses: radumarias/actions/check-version@v1
 
     - run: |
         echo "Prev version ${{ steps.check_version.outputs.prev_version }}"
