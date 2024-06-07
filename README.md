@@ -1,4 +1,4 @@
-# Checks if the version has changed since last release.
+# Checks if the version has changed since last release
 
 Inputs:
 | Name | Type | Required | Description |
