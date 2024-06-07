@@ -42,8 +42,39 @@ An example of such a workflow could be this:
         echo "Prev version ${{ steps.check_version.outputs.prev_version }}"
         echo "Version ${{ steps.check_version.outputs.version }}"
         echo "Version has changed ${{ steps.check_version.outputs.changed }}"
+```
+
+# Conditional step
+
+```yaml
+    - id: check_version
+      uses: radumarias/actions/check-version@v1
 
     - name: Execute if version has changed
       if: ${{ steps.check_version.outputs.changed }}
       run: echo "Version has changed from ${{ steps.check_version.outputs.prev_version }} to ${{ steps.check_version.outputs.version }}"
+```
+
+# Conditional job
+
+```yaml
+jobs:
+  check_version:
+    name: Check version
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.check_version.outputs.changed }}
+      version: ${{ steps.check_version.outputs.version }}
+      prev_version: ${{ steps.check_version.outputs.prev_version }}
+
+  conditional_job:
+    name: Conditonal
+    needs: [check_version]
+    if: ${{ needs.check_version.outputs.changed }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Execute if version has changed
+        if: ${{ steps.check_version.outputs.changed }}
+        run: echo "Version has changed from ${{ steps.check_version.outputs.prev_version }} to ${{ steps.check_version.outputs.version }}"
 ```
