@@ -52,7 +52,7 @@ runs:
             echo "Version has not changed"
             echo "changed=false" >> $GITHUB_OUTPUT
           fi
-          echo "prev_version=$old_version" >> $GITHUB_OUTPUT
-          # echo "version=$new_version" >> $GITHUB_OUTPUT
+          echo "old_version=$old_version" >> $GITHUB_OUTPUT
           echo "latest-release=$new_version" >> $GITHUB_OUTPUT
+          echo "new_version=$new_version" >> $GITHUB_OUTPUT
         shell: bash
