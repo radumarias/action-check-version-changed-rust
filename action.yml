@@ -1,0 +1,54 @@
+name: check-version
+description: Checks if the version has changed since last release
+author: 'radumarias'
+
+inputs:
+  type:
+    description: The project language, currently only `rust` is supported
+    required: true
+    type: string
+outputs:
+  changed:
+  type: bool
+    description: If the version has changed
+    value: ${{ jobs.check_version.outputs.changed }}
+  version:
+    description: The current value in version file
+    type: string
+    value: ${{ jobs.check_version.outputs.new_version }}
+  prev_version:
+    description: The previous version
+    type: string
+    value: ${{ jobs.check_version.outputs.old_version }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Check type
+      if: ${{ !contains(fromJson('["rust"]'), inputs.type)  }}
+      run: exit 1
+
+    - name: Check for version change
+      id: version_check
+      run: |
+        git fetch --tags
+        git fetch --prune --unshallow || true
+
+        # Remove the first letter if it's "v"  
+        old_version=$(git describe --abbrev=0 --tags) | sed 's/^v//'
+        # TODO: adapt per ${{ inputs.type }}
+        new_version=$(grep '^version\s*=' Cargo.toml | sed 's/version\s*=\s*"\(.*\)"/\1/')
+        old_version=${old_version:-$new_version}
+        
+        echo "Old Version: $old_version"
+        echo "New Version: $new_version"
+
+        if [ "$old_version" != "$new_version" ]; then
+          echo "Version has changed from $old_version to $new_version"
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "Version has not changed"
+          echo "changed=false" >> "$GITHUB_OUTPUT"
+        fi
+        echo "prev_version=$old_version" >> "$GITHUB_OUTPUT"
+        echo "version=$new_version" >> "$GITHUB_OUTPUT"
