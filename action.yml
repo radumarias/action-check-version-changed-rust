@@ -9,16 +9,13 @@ author: 'radumarias'
 #    type: string
 outputs:
   changed:
-    description: If the version has changed
-    type: bool
+    description: If the version has changed (type: bool)
     value: ${{ steps.check_version.outputs.changed }}
   version:
-    description: The current value in version file
-    type: string
+    description: The current value in version file (type: string)
     value: ${{ steps.check_version.outputs.new_version }}
   prev_version:
-    description: The previous version
-    type: string
+    description: The previous version (type: string)
     value: ${{ steps.check_version.outputs.old_version }}
 
 runs:
