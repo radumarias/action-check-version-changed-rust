@@ -18,9 +18,9 @@ jobs:
           version=${{ steps.check_version.version }}
           changed=${{ steps.check_version.changed }}
           
-          echo "Prev version $prev_version"
-          echo "Version $version"
-          echo "Version has changed $changed"
+          echo "Prev version ${prev_version}"
+          echo "Version ${version}"
+          echo "Version has changed ${changed}"
 
           if [[ "${ version }" != "0.42.0" ]]; then
             echo "Invalid `version`"
