@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - id: check_version
-        uses: radumarias/action-check-version@main
+        uses: radumarias/action-check-version-changed-rust@main
 
       - name: Tests
         run: |
