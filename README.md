@@ -1,5 +1,7 @@
-# Checks if the version has changed since the last release for a Rust project
+# Checks if the version in `Cargo.toml` has changed since the last release for a Rust project
 
+Useful in cases when you you want to automatically perform additional steps like creating a release and deploying/publishing the app if version is changed.  
+Not useful when you create releases and deploy/publish manually.
 <!--
 # Inputs
 
