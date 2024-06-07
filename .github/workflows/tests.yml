@@ -1,0 +1,29 @@
+name: Tests
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - id: check_version
+        uses: radumarias/actions/action-check-version@v1
+  
+      - run: |
+          prev_version = ${{ steps.check_version.prev_version }}
+          version = ${{ steps.check_version.version }}
+          changed = ${{ steps.check_version.changed }}
+          
+          echo "Prev version $prev_version"
+          echo "Version $version"
+          echo "Version has changed $changed"
+
+          if [[ "${ version }" != "0.42.0" ]]; then
+            echo "Invalid `version`"
+            exit 1
+          fi
+          if [[ "${ changed }" != true ]]; then
+            echo "Invalid `changed`"
+            exit 1
+          fi
