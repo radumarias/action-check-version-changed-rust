@@ -2,6 +2,7 @@
 
 Inputs:
 - **type** (required): suported values [rust]. In future we might extend to other languages, also we could expose a `version_file` and `version_pattern` to be more extensible
+
 Outputs:
 - **changed**: if the version has changed
 - **version**: the current version in version file
@@ -9,7 +10,7 @@ Outputs:
 
 # Example
 
-```GitHub
+```yaml
     - id: check_version
     uses: radumarias/actions/check-version@v1
     with:
