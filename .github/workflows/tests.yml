@@ -8,11 +8,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Fetch latest release version
+        id: fetch-latest-release
+        uses: reloc8/action-latest-release-version@1.0.0
       
       - id: check_version
         uses: radumarias/action-check-version@main
-  
-      - run: |
+
+      - name: Tests
+        run: |
           prev_version = ${{ steps.check_version.prev_version }}
           version = ${{ steps.check_version.version }}
           changed = ${{ steps.check_version.changed }}
