@@ -1,4 +1,4 @@
-name: check-version
+name: check-version-changed-rust
 description: Checks if the version has changed since last release
 author: 'radumarias'
 branding:
