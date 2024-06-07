@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: check_version
-        uses: radumarias/action-check-version@v0.1.0
+        uses: radumarias/action-check-version@main
   
       - run: |
           prev_version = ${{ steps.check_version.prev_version }}
