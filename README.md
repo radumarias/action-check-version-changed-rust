@@ -66,6 +66,12 @@ jobs:
       changed: ${{ steps.check_version.outputs.changed }}
       version: ${{ steps.check_version.outputs.version }}
       prev_version: ${{ steps.check_version.outputs.prev_version }}
+      
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: check_version
+        uses: radumarias/actions/check-version@v1
 
   conditional_job:
     name: Conditonal
