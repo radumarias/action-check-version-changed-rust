@@ -32,7 +32,6 @@ runs:
           # Remove the first letter if it's "v"
           old_version=$( git describe --abbrev=0 --tags | sed 's/^v//' )
           new_version=$( grep '^version\s*=' Cargo.toml | sed 's/version\s*=\s*"\(.*\)"/\1/' | sed 's/^version\s*=\s*//' )
-          echo $new_version
           old_version=${old_version:-$new_version}
           
           echo "Old Version: $old_version"
