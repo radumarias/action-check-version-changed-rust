@@ -28,31 +28,31 @@ runs:
 #      if: ${{ !contains(fromJson('["rust"]'), inputs.type)  }}
 #      run: exit 1
 
-      id: check_version
-      run: |
-        git fetch --tags
-        git fetch --prune --unshallow || true
-        export LATEST_RELEASE_VERSION=$(git describe --abbrev=0 --tags)
-        # echo "latest-release=$LATEST_RELEASE_VERSION" >> $GITHUB_OUTPUT
-      
-        git fetch --tags
-        git fetch --prune --unshallow || true
-        # Remove the first letter if it's "v"
-        old_version=$( git describe --abbrev=0 --tags | sed 's/^v//' )
-        new_version=$(grep '^version\s*=' Cargo.toml | sed 's/version\s*=\s*"\(.*\)"/\1/')
-        old_version=${old_version:-$new_version}
+      - id: check_version
+        run: |
+          git fetch --tags
+          git fetch --prune --unshallow || true
+          export LATEST_RELEASE_VERSION=$(git describe --abbrev=0 --tags)
+          # echo "latest-release=$LATEST_RELEASE_VERSION" >> $GITHUB_OUTPUT
         
-        echo "Old Version: $old_version"
-        echo "New Version: $new_version"
-
-        if [ "$old_version" != "$new_version" ]; then
-          echo "Version has changed from $old_version to $new_version"
-            echo "changed=true" >> $GITHUB_OUTPUT
-        else
-          echo "Version has not changed"
-          echo "changed=false" >> $GITHUB_OUTPUT
-        fi
-        echo "prev_version=$old_version" >> $GITHUB_OUTPUT
-        # echo "version=$new_version" >> $GITHUB_OUTPUT
-        echo "latest-release=$new_version" >> $GITHUB_OUTPUT
-      shell: bash
+          git fetch --tags
+          git fetch --prune --unshallow || true
+          # Remove the first letter if it's "v"
+          old_version=$( git describe --abbrev=0 --tags | sed 's/^v//' )
+          new_version=$(grep '^version\s*=' Cargo.toml | sed 's/version\s*=\s*"\(.*\)"/\1/')
+          old_version=${old_version:-$new_version}
+          
+          echo "Old Version: $old_version"
+          echo "New Version: $new_version"
+  
+          if [ "$old_version" != "$new_version" ]; then
+            echo "Version has changed from $old_version to $new_version"
+              echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "Version has not changed"
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+          echo "prev_version=$old_version" >> $GITHUB_OUTPUT
+          # echo "version=$new_version" >> $GITHUB_OUTPUT
+          echo "latest-release=$new_version" >> $GITHUB_OUTPUT
+        shell: bash
