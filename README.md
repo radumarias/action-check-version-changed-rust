@@ -4,15 +4,15 @@ Useful in cases when you you want to automatically perform additional steps like
 Not useful when you create releases manualy and and trigger deploy/publish from the release or manually.
 
 An example of such a workflow could be this:
-- on push
+- on `push`
     - run tests
-        - build AUR image (cargo aur)
+        - build `AUR` image (cargo aur)
             - if version changed 
-                - create release, attach binaries as artifact, url used in PKGBUILD to distribute the binaries
-                    - publish to AUR
-                    - publish to crates.io
+                - create `release`, attach binaries as `artifact`, url used in `PKGBUILD` to distribute the binaries
+                    - publish to `AUR`
+                    - publish to `crates.io`
         - build docker image
-            - if version changed push it to Docker Hub
+            - if version changed push it to `Docker Hub`
 
 ![workflow](https://github.com/radumarias/action-check-version-changed-rust/blob/main/workflow.jpeg?raw=true)
 
