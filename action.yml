@@ -58,7 +58,6 @@ runs:
             echo "Search last tag"
             git fetch --tags
             git fetch --prune --unshallow || true
-            # Remove the first letter if it's "v"
             last_tag=$( git describe --abbrev=0 --tags | sed 's/^v//' )
             echo "last_tag $last_tag"
             echo $last_tag
