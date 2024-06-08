@@ -87,3 +87,4 @@ runs:
         echo "old_version=$old_version" >> "$GITHUB_OUTPUT"
         echo "new_version=$new_version" >> "$GITHUB_OUTPUT"
       shell: bash
+      
