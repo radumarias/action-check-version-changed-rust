@@ -40,13 +40,10 @@ runs:
         
         find_old_version() {
           last_commit_checked_for_version_change=${{ inputs.since_commit }}
+          echo "last_commit_checked_for_version_change $last_commit_checked_for_version_change"
           if [ -n "$last_commit_checked_for_version_change" ]; then
             # we have last commit
             echo "Search since last commit"
-            # save HEAD for next run
-            last_commit=$(git rev-parse HEAD)
-            echo "$last_commit" > last_commit_checked_for_version_change.42
-            
             commits_since=$(git log $last_commit_checked_for_version_change..HEAD --pretty=format:"%H")
             commit_array=("${(@f)commits_since}")
             for commit_hash in "${commit_array[@]}"; do
