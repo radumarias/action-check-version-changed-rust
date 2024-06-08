@@ -45,6 +45,9 @@ runs:
             # we have last commit
             echo "Search since commit" >&2
             # commits_since=$(git log $last_commit_checked_for_version_change..HEAD --pretty=format:"%H")
+            if [ -z "$commits_since" ]; then
+              return 0
+            fi
             echo "commits_since $commits_since"  >&2
             commit_array=("${(@f)commits_since}")
             for commit_hash in "${commit_array[@]}"; do
