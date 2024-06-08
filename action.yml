@@ -39,7 +39,7 @@ runs:
         }
         
         find_old_version() {
-          last_commit_checked_for_version_change=$${{ inputs.since_commit }}
+          last_commit_checked_for_version_change=${{ inputs.since_commit }}
           echo "last_commit_checked_for_version_change $last_commit_checked_for_version_change" >&2
           if [ -n "$last_commit_checked_for_version_change" ]; then
             # we have last commit
