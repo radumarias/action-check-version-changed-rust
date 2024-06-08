@@ -10,9 +10,6 @@ branding:
 #    description: The project language, currently only `rust` is supported
 #    required: true
 #    type: string
-    # since_commit:
-      # description: 'Last commit hash from which we should search'
-      # required: true
 outputs:
   changed:
     description: 'If the version has changed (type: bool)'
@@ -46,7 +43,6 @@ runs:
         }
         
         find_old_version() {
-          # last_commit_checked_for_version_change=${{ inputs.since_commit }}
           last_commit_checked_for_version_change=$( cat action-check-version-changed-rust.since_commit.hash )
           echo "last_commit_checked_for_version_change $last_commit_checked_for_version_change" >&2
           if [ -n "$last_commit_checked_for_version_change" ]; then
