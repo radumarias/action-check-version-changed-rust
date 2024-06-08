@@ -38,6 +38,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Wait for conditional job
+        run: sleep 10
+
       - id: check_version
         uses: radumarias/action-check-version-changed-rust@main
 
