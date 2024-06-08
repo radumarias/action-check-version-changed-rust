@@ -43,7 +43,7 @@ runs:
           echo "last_commit_checked_for_version_change $last_commit_checked_for_version_change"
           if [ -n "$last_commit_checked_for_version_change" ]; then
             # we have last commit
-            commits_since=$(git log $last_commit_checked_for_version_change..HEAD --pretty=format:"%H")
+            # commits_since=$(git log $last_commit_checked_for_version_change..HEAD --pretty=format:"%H")
             echo "commits_since $commits_since"
             commit_array=("${(@f)commits_since}")
             for commit_hash in "${commit_array[@]}"; do
