@@ -47,6 +47,7 @@ runs:
             git fetch --depth=10000000000000000
             commits_since=$(git log $last_commit_checked_for_version_change..HEAD --pretty=format:"%H")
             if [ -z "$commits_since" ]; then
+              echo "no new commits" >&2
               return 0
             fi
             echo "commits_since $commits_since"  >&2
