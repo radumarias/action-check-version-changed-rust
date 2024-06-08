@@ -40,11 +40,14 @@ runs:
         
         find_old_version() {
           last_commit_checked_for_version_change=$${{ inputs.since_commit }}
+          echo "last_commit_checked_for_version_change $last_commit_checked_for_version_change"
           if [ -n "$last_commit_checked_for_version_change" ]; then
             # we have last commit
             commits_since=$(git log $last_commit_checked_for_version_change..HEAD --pretty=format:"%H")
+            echo "commits_since $commits_since"
             commit_array=("${(@f)commits_since}")
             for commit_hash in "${commit_array[@]}"; do
+              echo "commit_hash $commit_hash"
               old_version="$(get_old_version_from_commit $commit_hash)"
               if [ -n "$old_version" ]; then
                 echo "$old_version"
