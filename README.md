@@ -1,9 +1,13 @@
-# Checks if the version in `Cargo.toml` has changed since the last release for a Rust project
+# Checks if the version in `Cargo.toml` has changed since last time the job runned for a Rust project
 
 [![Tests](https://github.com/radumarias/action-check-version-changed-rust/actions/workflows/tests.yml/badge.svg)](https://github.com/radumarias/action-check-version-changed-rust/actions/workflows/tests.yml)
 
 Useful in cases when you you want to automatically perform additional steps like creating a release and deploying/publishing the app if version is changed.  
-Not useful when you create releases manualy and and trigger deploy/publish from the release or manually.
+Not useful when you create releases manualy and trigger deploy/publish from the release or manually.
+
+When the step runs, at the end, it saves in the cache the last commit in repo as `since_commit` and the next time it runs it checks for version change since that commit.  
+**So if version is changed and you have 2 workflows that triger on push that inside are using this action, only first one that runs the check version step will see the version change, the second one will NOT, please keep this in mind when you design your workflows**  
+When running the step for the first time, as we dont' have `since_commit` saved, it will compare the verison with latest release tag.
 
 An example of such a workflow could be this:
 - on `push`
@@ -33,6 +37,10 @@ An example of such a workflow could be this:
 | changed | bool | If the version has changed
 | version | string | The current version in version file
 | prev_version | string | Last release version
+
+# Since commit
+
+
 
 # Example
 
