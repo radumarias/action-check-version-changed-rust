@@ -16,6 +16,7 @@ jobs:
         run: |
           since_commit=$( curl -X GET -u ${{ secrets.KVDB_SECRET }}: https://kvdb.io/${{ secrets.KVDB_BUCKET_ID }}/since_commit )
           since_commit=${since_commit:l}
+          since_commit=${since_commit%%\%}
           if [[ $since_commit == not\ found* ]]; then
             since_commit=""
           echo "since commit $since_commit"
