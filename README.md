@@ -80,7 +80,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Execute if version has changed
-        if: ${{ steps.check_version.outputs.changed }}
+      - name: Version changed
         run: echo "Version has changed from ${{ steps.check_version.outputs.prev_version }} to ${{ steps.check_version.outputs.version }}"
 ```
