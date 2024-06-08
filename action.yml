@@ -5,14 +5,14 @@ branding:
   icon: activity
   color: black
 
-# inputs:
+inputs:
 #  type:
 #    description: The project language, currently only `rust` is supported
 #    required: true
 #    type: string
     since_commit:
-    description: 'Last commit hash from which we should search'
-    required: true
+      description: 'Last commit hash from which we should search'
+      required: true
 outputs:
   changed:
     description: 'If the version has changed (type: bool)'
