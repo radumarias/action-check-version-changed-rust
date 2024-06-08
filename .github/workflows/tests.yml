@@ -38,7 +38,7 @@ jobs:
       - name: Save since commit
         run: |
           last_commit=$( git rev-parse HEAD )
-          echo "last_commit $last_commit'
+          echo "last_commit $last_commit"
           curl -X POST -u ${{ secrets.KVDB_SECRET }}: https://kvdb.io/${{ secrets.KVDB_BUCKET_ID }}/since_commit -d $last_commit
 
   conditional_job:
