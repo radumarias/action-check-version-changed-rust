@@ -19,6 +19,7 @@ jobs:
           since_commit=${since_commit%%\%}
           if [[ $since_commit == not\ found* ]]; then
             since_commit=""
+          fi
           echo "since commit $since_commit"
           echo "value=$since_commit" >> "$GITHUB_OUTPUT"
 
