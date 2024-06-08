@@ -50,15 +50,15 @@ runs:
               return 0
             fi
             echo "commits_since $commits_since"  >&2
-            commit_array=("${(@f)commits_since}")
-            for commit_hash in "${commit_array[@]}"; do
+            IFS=$'\n'
+            while read -r commit_hash; do
               echo "commit_hash $commit_hash"  >&2
               old_version="$(get_old_version_from_commit $commit_hash)"
               if [ -n "$old_version" ]; then
                 echo "$old_version"
                 return 0
               fi
-            done              
+            done <<< "$commits_since"
           else
             # we DON"T have last commit, take last tag
             echo "Search last tag" >&2
