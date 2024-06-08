@@ -4,6 +4,35 @@ on:
     branches: [ main ]
 
 jobs:
+  check_version:
+    name: Check version
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.check_version.outputs.changed }}
+      version: ${{ steps.check_version.outputs.version }}
+      prev_version: ${{ steps.check_version.outputs.prev_version }}
+      
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: check_version
+        uses: radumarias/action-check-version-changed-rust@v1
+
+  conditional_job:
+    name: Conditonal job
+    needs: [check_version]
+    if: ${{ needs.check_version.outputs.changed }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: touch 42
+      
+      - name: Upload a file to mark that job executed
+        uses: actions/upload-artifact@v4
+        with:
+          name: 42
+          path: ./42
+            
   test:
     runs-on: ubuntu-latest
     steps:
@@ -12,7 +41,7 @@ jobs:
       - id: check_version
         uses: radumarias/action-check-version-changed-rust@main
 
-      - name: Tests
+      - name: Test check_version step
         run: |
           prev_version=${{ steps.check_version.outputs.prev_version }}
           version=${{ steps.check_version.outputs.version }}
@@ -30,3 +59,19 @@ jobs:
             echo "Invalid 'changed'"
             exit 1
           fi
+
+      - name: Conditional step
+        id: conditional_step
+        if: ${{ steps.check_version.outputs.changed }}
+        run: echo "executed=true" >> $GITHUB_OUTPUT
+
+      - name: Test conditional step
+        run: |
+          if [ ${{ steps.conditional_step.outputs.executed }} != true ]; then
+            exit 1
+          fi
+
+      - name: Test conditional job
+        uses: actions/download-artifact@v4
+        with:
+          name: 42
