@@ -18,37 +18,26 @@ jobs:
       - id: check_version
         uses: radumarias/action-check-version-changed-rust@main
 
-  random:
-    name: Generate random
-    runs-on: ubuntu-latest
-    outputs:
-      random: ${{ steps.random.outputs.random }}
-    steps:
-      - run: echo "random=$RANDOM" >> "$GITHUB_OUTPUT"
-  
   conditional_job:
     name: Conditonal job
-    needs: [check_version, random]
+    needs: [check_version]
     if: ${{ needs.check_version.outputs.changed }}
     runs-on: ubuntu-latest
 
     steps:
-      - run: touch ${{ needs.random.outputs.random }}
+      - run: touch 42
       
       - name: Upload a file to mark that job executed
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ needs.random.outputs.random }}
-          path: ./${{ needs.random.outputs.random }}
+          name: 42
+          path: ./42
             
   test:
     name: Test
-    needs: [random]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - run: rm -f ${{ needs.random.outputs.random }}
 
       - name: Wait for conditional job
         run: sleep 60
@@ -89,4 +78,4 @@ jobs:
       - name: Test conditional job
         uses: actions/download-artifact@v4
         with:
-          name: ${{ needs.random.outputs.random }}
+          name: 42
