@@ -1,5 +1,7 @@
 # Checks if the version in `Cargo.toml` has changed since the last release for a Rust project
 
+[![Tests](https://github.com/radumarias/action-check-version-changed-rust/actions/workflows/tests.yml/badge.svg)](https://github.com/radumarias/action-check-version-changed-rust/actions/workflows/tests.yml)
+
 Useful in cases when you you want to automatically perform additional steps like creating a release and deploying/publishing the app if version is changed.  
 Not useful when you create releases manualy and and trigger deploy/publish from the release or manually.
 
