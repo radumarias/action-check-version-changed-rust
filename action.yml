@@ -28,25 +28,74 @@ runs:
 #      if: ${{ !contains(fromJson('["rust"]'), inputs.type)  }}
 #      run: exit 1
 
+      - name: Download last commit checked marker file
+        - uses: actions/download-artifact@v4
+        with:
+          name: last_commit_checked_for_version_change.42
+      - run: |
+          echo "last_commit_checked_for_version_change" 
+          cat last_commit_checked_for_version_change.42
+      
       - id: check_version
         run: |
-          git fetch --tags
-          git fetch --prune --unshallow || true
-          # Remove the first letter if it's "v"
-          old_version=$( git describe --abbrev=0 --tags | sed 's/^v//' )
+          get_old_version_from_commit() {
+            commit=$1
+            git show ${commit} Cargo.toml | grep '^-version\s*=' | sed 's/^-version\s*=\s*"\(.*\)"/\1/'
+          }
+          
+          find_old_version() {
+            last_checked_commit=$( cat last_commit_checked_for_version_change.42 )
+            if [ -n "$last_commit_checked_for_version_change" ]; then
+              # we have last commit
+              echo "Search since last commit"
+              # save HEAD for next run
+              last_commit=$(git rev-parse HEAD)
+              echo "$last_commit" > last_commit_checked_for_version_change.42
+              
+              commits_since=$(git log $last_commit_checked_for_version_change..HEAD --pretty=format:"%H")
+              commit_array=("${(@f)commits_since}")
+              for commit_hash in "${commit_array[@]}"; do
+                old_version="$(get_old_version_from_commit $commit_hash)"
+                if [ -n "$old_version" ]; then
+                  echo "$old_version"
+                  return 0
+                fi
+              done              
+            else
+              # we DON"T have last commit, take last tag
+              echo "Search last tag"
+              git fetch --tags
+              git fetch --prune --unshallow || true
+              # Remove the first letter if it's "v"
+              old_version=$( git describe --abbrev=0 --tags | sed 's/^v//' )
+              echo $old_version
+            fi
+          }
+          
           new_version=$( grep '^version\s*=' Cargo.toml | sed 's/version\s*=\s*"\(.*\)"/\1/' | sed 's/^version\s*=\s*//' )
+          old_version=$(find_old_version $last_commit)
           old_version=${old_version:-$new_version}
           
           echo "Old Version: $old_version"
           echo "New Version: $new_version"
-  
+          
           if [ "$old_version" != "$new_version" ]; then
             echo "Version has changed from $old_version to $new_version"
-              echo "changed=true" >> $GITHUB_OUTPUT
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           else
             echo "Version has not changed"
-            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           fi
-          echo "old_version=$old_version" >> $GITHUB_OUTPUT
-          echo "new_version=$new_version" >> $GITHUB_OUTPUT
+          echo "old_version=$old_version" >> "$GITHUB_OUTPUT"
+          echo "new_version=$new_version" >> "$GITHUB_OUTPUT"
         shell: bash
+
+      - name: Upload last commit checked marker file
+        - uses: actions/upload-artifact@v4
+        with:
+          name: last_commit_checked_for_version_change.42
+          path: last_commit_checked_for_version_change.42
+
+      - run: |
+          echo "last_commit_checked_for_version_change" 
+          cat last_commit_checked_for_version_change.42
