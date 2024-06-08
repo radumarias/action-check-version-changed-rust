@@ -5,14 +5,14 @@ branding:
   icon: activity
   color: black
 
-inputs:
+# inputs:
 #  type:
 #    description: The project language, currently only `rust` is supported
 #    required: true
 #    type: string
-    since_commit:
-      description: 'Last commit hash from which we should search'
-      required: true
+    # since_commit:
+      # description: 'Last commit hash from which we should search'
+      # required: true
 outputs:
   changed:
     description: 'If the version has changed (type: bool)'
@@ -31,6 +31,13 @@ runs:
 #      if: ${{ !contains(fromJson('["rust"]'), inputs.type)  }}
 #      run: exit 1      
       
+    - name: Cache since_commit
+      id: cache-primes
+      uses: actions/cache@v4
+      with:
+        path: action-check-version-changed-rust.since_commit.hash
+        key: action-check-version-changed-rust.since_commit.hash
+
     - id: check_version
       run: |
         get_old_version_from_commit() {
@@ -39,7 +46,8 @@ runs:
         }
         
         find_old_version() {
-          last_commit_checked_for_version_change=${{ inputs.since_commit }}
+          # last_commit_checked_for_version_change=${{ inputs.since_commit }}
+          last_commit_checked_for_version_change=$( cat action-check-version-changed-rust.since_commit.hash )
           echo "last_commit_checked_for_version_change $last_commit_checked_for_version_change" >&2
           if [ -n "$last_commit_checked_for_version_change" ]; then
             # we have last commit
@@ -86,5 +94,8 @@ runs:
         fi
         echo "old_version=$old_version" >> "$GITHUB_OUTPUT"
         echo "new_version=$new_version" >> "$GITHUB_OUTPUT"
+
+        last_commit=$( git rev-parse HEAD )
+        echo "save last_commit $last_commit"
+        echo $last_commit > action-check-version-changed-rust.since_commit.hash
       shell: bash
-      
