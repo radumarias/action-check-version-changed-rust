@@ -44,7 +44,7 @@ runs:
           if [ -n "$last_commit_checked_for_version_change" ]; then
             # we have last commit
             echo "Search since commit" >&2
-            git fetch
+            git fetch --depth=10000000000000000
             commits_since=$(git log $last_commit_checked_for_version_change..HEAD --pretty=format:"%H")
             if [ -z "$commits_since" ]; then
               return 0
