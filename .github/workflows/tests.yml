@@ -4,28 +4,28 @@ on:
     branches: [ main ]
 
 jobs:
-  since_commit:
-    name: Get since commit
-    runs-on: ubuntu-latest
-    outputs:
-      value: ${{ steps.since_commit.outputs.value }}
+  # since_commit:
+  #   name: Get since commit
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     value: ${{ steps.since_commit.outputs.value }}
       
-    steps:
-      - name: Get since commit
-        id: since_commit
-        run: |
-          since_commit=$( curl -X GET -u ${{ secrets.KVDB_SECRET }}: https://kvdb.io/${{ secrets.KVDB_BUCKET_ID }}/since_commit )
-          echo "since_commit $since_commit"
-          since_commit=$(echo "${since_commit}" | tr '[:upper:]' '[:lower:]')
-          if [[ $since_commit == not\ found* ]]; then
-            since_commit=""
-          fi
-          echo "since commit $since_commit"
-          echo "value=$since_commit" >> "$GITHUB_OUTPUT"
+  #   steps:
+  #     - name: Get since commit
+  #       id: since_commit
+  #       run: |
+  #         since_commit=$( curl -X GET -u ${{ secrets.KVDB_SECRET }}: https://kvdb.io/${{ secrets.KVDB_BUCKET_ID }}/since_commit )
+  #         echo "since_commit $since_commit"
+  #         since_commit=$(echo "${since_commit}" | tr '[:upper:]' '[:lower:]')
+  #         if [[ $since_commit == not\ found* ]]; then
+  #           since_commit=""
+  #         fi
+  #         echo "since commit $since_commit"
+  #         echo "value=$since_commit" >> "$GITHUB_OUTPUT"
 
   check_version:
     name: Check version
-    needs: [since_commit]
+    # needs: [since_commit]
     runs-on: ubuntu-latest
     outputs:
       changed: ${{ steps.check_version.outputs.changed }}
@@ -37,14 +37,14 @@ jobs:
 
       - id: check_version
         uses: radumarias/action-check-version-changed-rust@main
-        with:
-          since_commit: ${{ needs.since_commit.outputs.value }}
+        # with:
+        #   since_commit: ${{ needs.since_commit.outputs.value }}
 
-      - name: Save since commit
-        run: |
-          last_commit=$( git rev-parse HEAD )
-          echo "last_commit $last_commit"
-          curl -X POST -u ${{ secrets.KVDB_SECRET }}: https://kvdb.io/${{ secrets.KVDB_BUCKET_ID }}/since_commit -d $last_commit
+      # - name: Save since commit
+      #   run: |
+      #     last_commit=$( git rev-parse HEAD )
+      #     echo "last_commit $last_commit"
+      #     curl -X POST -u ${{ secrets.KVDB_SECRET }}: https://kvdb.io/${{ secrets.KVDB_BUCKET_ID }}/since_commit -d $last_commit
 
   conditional_job:
     name: Conditonal job
@@ -63,7 +63,7 @@ jobs:
             
   test:
     name: Test
-    needs: [since_commit]
+    # needs: [since_commit]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -73,8 +73,8 @@ jobs:
 
       - id: check_version
         uses: radumarias/action-check-version-changed-rust@main
-        with:
-          since_commit: ${{ needs.since_commit.outputs.value }}
+        # with:
+        #   since_commit: ${{ needs.since_commit.outputs.value }}
 
       - name: Test check_version step
         run: |
