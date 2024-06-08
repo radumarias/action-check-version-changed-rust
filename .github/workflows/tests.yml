@@ -86,7 +86,7 @@ jobs:
             echo "Invalid 'version'"
             exit 1
           fi
-          if [[ $changed != false ]]; then
+          if [[ $changed != 'false' ]]; then
             echo "Invalid 'changed'"
             exit 1
           fi
