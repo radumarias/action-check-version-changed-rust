@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - id: check_version
-        uses: radumarias/action-check-version-changed-rust@v1
+        uses: radumarias/action-check-version-changed-rust@main
 
   random:
     name: Generate random
