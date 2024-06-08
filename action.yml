@@ -39,11 +39,9 @@ runs:
         }
         
         find_old_version() {
-          last_commit_checked_for_version_change=${{ inputs.since_commit }}
-          echo "last_commit_checked_for_version_change $last_commit_checked_for_version_change"
+          last_commit_checked_for_version_change=""
           if [ -n "$last_commit_checked_for_version_change" ]; then
             # we have last commit
-            echo "Search since last commit"
             commits_since=$(git log $last_commit_checked_for_version_change..HEAD --pretty=format:"%H")
             commit_array=("${(@f)commits_since}")
             for commit_hash in "${commit_array[@]}"; do
@@ -55,11 +53,9 @@ runs:
             done              
           else
             # we DON"T have last commit, take last tag
-            echo "Search last tag"
             git fetch --tags
             git fetch --prune --unshallow || true
             last_tag=$( git describe --abbrev=0 --tags | sed 's/^v//' )
-            echo "last_tag $last_tag"
             echo $last_tag
           fi
         }
