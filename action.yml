@@ -5,13 +5,13 @@ branding:
   icon: activity
   color: black
 
-inputs:
+# inputs:
 #  type:
 #    description: The project language, currently only `rust` is supported
 #    required: true
 #    type: string
-  token:
-    description: 'A Github PAT'
+    since_commit:
+    description: 'Last commit hash from which we should search'
     required: true
 outputs:
   changed:
@@ -30,46 +30,6 @@ runs:
 #    - name: Check type
 #      if: ${{ !contains(fromJson('["rust"]'), inputs.type)  }}
 #      run: exit 1      
-
-    - name: Get the last run ID of the workflow
-      id: last_run_id
-      env:
-        GH_TOKEN: ${{ inputs.token }}
-        REPO_OWNER: ${{ github.repository_owner }}
-        REPO_NAME: ${{ github.event.repository.name }}
-        RUN_ID: ${{ github.run_id }}
-      run: |
-        # Fetch the details of the current workflow run
-        response=$(curl -s -H "Authorization: token $GH_TOKEN" \
-          "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/actions/runs/$RUN_ID")
-
-        # Extract the workflow file name from the response
-        workflow_url=$(echo $response | jq -r '.workflow_url')
-        workflow_filename=$(basename $workflow_url)
-
-        echo "Current workflow filename: $workflow_filename"
-
-        response=$(curl -s -H "Authorization: token $GH_TOKEN" \
-          "https://api.github.com/repos/$REPO_OWNER/REPO_NAME/actions/workflows/$workflow_filename/runs?per_page=1")
-
-        last_run_id=$(echo $response | jq -r '.workflow_runs[0].id')
-
-        echo "Last run ID: $last_run_id"
-        echo "id=$last_run_id" >> "$GITHUB_OUTPUT"
-      shell: bash
-
-    - name: Download last commit checked marker file
-      if: ${{ steps.last_run_id.outputs.id != '' }}
-      uses: actions/download-artifact@v4
-      with:
-        name: last_commit_checked_for_version_change.42
-        github-token: ${{ inputs.token }}
-        run-id: ${{ steps.last_run_id.outputs.id }}
-      
-    - run: |
-        echo "last_commit_checked_for_version_change" 
-        cat last_commit_checked_for_version_change.42
-      shell: bash
       
     - id: check_version
       run: |
@@ -79,7 +39,7 @@ runs:
         }
         
         find_old_version() {
-          last_checked_commit=$( cat last_commit_checked_for_version_change.42 )
+          last_commit_checked_for_version_change=${{ inputs.since_commit }}
           if [ -n "$last_commit_checked_for_version_change" ]; then
             # we have last commit
             echo "Search since last commit"
@@ -124,13 +84,3 @@ runs:
         echo "old_version=$old_version" >> "$GITHUB_OUTPUT"
         echo "new_version=$new_version" >> "$GITHUB_OUTPUT"
       shell: bash
-
-    - run: |
-        echo "last_commit_checked_for_version_change" 
-        cat last_commit_checked_for_version_change.42
-      shell: bash
-
-    - name: Upload last commit checked marker file
-      uses: actions/upload-artifact@v4
-      with:
-        name: last_commit_checked_for_version_change.42
