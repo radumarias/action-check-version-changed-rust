@@ -29,7 +29,7 @@ runs:
 #      run: exit 1
 
       - name: Download last commit checked marker file
-        - uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v4
         with:
           name: last_commit_checked_for_version_change.42
       - run: |
@@ -91,7 +91,7 @@ runs:
         shell: bash
 
       - name: Upload last commit checked marker file
-        - uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4
         with:
           name: last_commit_checked_for_version_change.42
           path: last_commit_checked_for_version_change.42
