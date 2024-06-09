@@ -25,6 +25,21 @@ jobs:
         with:
           gh_token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: delete from cache
+        run: |
+          echo "Fetching list of cache key"
+          cacheKeys=$(gh actions-cache list -R $REPO --key action-check-version-changed-rust_since_commit -L 100 | cut -f 1 )
+          ## Setting this to not fail the workflow while deleting cache keys.
+          set +e
+          for cacheKey in $cacheKeys
+          do
+            echo "Deleting key from cache"
+            gh actions-cache delete $cacheKey -R $REPO --key action-check-version-changed-rust_since_commit --confirm
+          done
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}          
+
   conditional_job:
     name: Conditonal job
     needs: [check_version]
