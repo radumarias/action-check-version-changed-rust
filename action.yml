@@ -118,7 +118,7 @@ runs:
         done
         echo "Done"
       env:
-        -B $BRANCH GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        -B $BRANCH GH_TOKEN: ${{ inputs.gh_token }}
         REPO: ${{ github.repository }}
           
     - name: Save since_commit
