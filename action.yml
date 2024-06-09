@@ -120,6 +120,7 @@ runs:
       env:
         -B $BRANCH GH_TOKEN: ${{ inputs.gh_token }}
         REPO: ${{ github.repository }}
+      shell: bash
           
     - name: Save since_commit
       id: cache-primes-save
