@@ -123,11 +123,11 @@ runs:
         REPO: ${{ github.repository }}
       shell: bash
           
-    - name: Save since_commit
-      id: cache-primes-save
-      uses: actions/cache/save@v4
-      env:
-        cache-name: ${{ github.event.repository.name }}
-      with:
-        path: action-check-version-changed-rust_since_commit
-        key: action-check-version-changed-rust_since_commit
+    # - name: Save since_commit
+    #   id: cache-primes-save
+    #   uses: actions/cache/save@v4
+    #   env:
+    #     cache-name: ${{ github.event.repository.name }}
+    #   with:
+    #     path: action-check-version-changed-rust_since_commit
+    #     key: action-check-version-changed-rust_since_commit
