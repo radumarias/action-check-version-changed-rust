@@ -26,7 +26,7 @@ An example of such a workflow could be this:
 ![workflow](https://github.com/radumarias/action-check-version-changed-rust/blob/main/workflow.jpeg?raw=true)
 
 > [!WARNING]
-> **`GITHUB_TOKEN` need to have `Workflow Write permission`. For that got here (change `OWNER` and `REPO`) [https://github.com/OWNER/REPO/settings/actions](https://github.com/OWNER/REPO/settings/actions) and at the bottom in `Workflow permissions` section check `Read and write permissions`.**  
+> **`GITHUB_TOKEN` need to have `Workflow Write permission`. For that got here (change `OWNER` and `REPO`) [https://github.com/OWNER/REPO/settings/actions](https://github.com/OWNER/REPO/settings/actions) `Actions -> General` and at the bottom in the `Workflow permissions` section check `Read and write permissions`.**  
 > This is needed because it saves the `since_commit` in the cache between runs.
 
 <!--
