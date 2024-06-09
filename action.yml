@@ -109,7 +109,7 @@ runs:
         gh actions-cache delete action-check-version-changed-rust_since_commit -R $REPO --confirm
         echo "Done"
       env:
-        GH_TOKEN: ${{ inputs.gh_token }}
+        GH_TOKEN: ${{ github.token }}
         REPO: ${{ github.repository }}
       shell: bash
           
