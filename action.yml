@@ -31,9 +31,11 @@ runs:
     - name: Cache since_commit
       id: cache-primes
       uses: actions/cache@v4
+      env:
+        cache-name: ${{ github.event.repository.name }}
       with:
-        path: action-check-version-changed-rust.since_commit.hash
-        key: ${{ github.event.repository.name }}_action-check-version-changed-rust.since_commit.hash
+        path: action-check-version-changed-rust
+        key: action-check-version-changed-rust
 
     - id: check_version
       run: |
@@ -43,7 +45,11 @@ runs:
         }
         
         find_old_version() {
-          last_commit_checked_for_version_change=$( cat action-check-version-changed-rust.since_commit.hash )
+          mkdir -p action-check-version-changed-rust
+          since_commit_file=$(find action-check-version-changed-rust -maxdepth 1 -type f -exec basename {} \;)
+          if [ -n "$last_commit_checked_for_version_change" ]; then
+            last_commit_checked_for_version_change=$( cat action-check-version-changed-rust/since_commit )
+          fi
           echo "last_commit_checked_for_version_change $last_commit_checked_for_version_change" >&2
           if [ -n "$last_commit_checked_for_version_change" ]; then
             # we have last commit
@@ -93,12 +99,34 @@ runs:
 
         last_commit=$( git rev-parse HEAD )
         echo "save last_commit $last_commit"
-        echo $last_commit > action-check-version-changed-rust.since_commit.hash
+        echo $last_commit > action-check-version-changed-rust/since_commit
       shell: bash
 
-    - name: Save since_commit
-      id: cache-primes-save
-      uses: actions/cache/save@v4
-      with:
-        path: action-check-version-changed-rust.since_commit.hash
-        key: ${{ github.event.repository.name }}_action-check-version-changed-rust.since_commit.hash
+    # - name: Delete since_commit from cache
+    #   run: |
+    #     gh extension install actions/gh-actions-cache
+
+    #     echo "Fetching list of cache key"
+    #     cacheKeysForPR=$(gh actions-cache list -R $REPO -B $BRANCH -L 100 | cut -f 1 )
+
+    #     ## Setting this to not fail the workflow while deleting cache keys.
+    #     set +e
+    #     echo "Deleting caches..."
+    #     for cacheKey in $cacheKeysForPR
+    #     do
+    #         gh actions-cache delete $cacheKey -R $REPO -B $BRANCH --confirm
+    #     done
+    #     echo "Done"
+    #   env:
+    #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #     REPO: ${{ github.repository }}
+    #     BRANCH: refs/pull/${{ github.event.pull_request.number }}/merge
+          
+    # - name: Save since_commit
+    #   id: cache-primes-save
+    #   uses: actions/cache/save@v4
+    #   env:
+    #     cache-name: ${{ github.event.repository.name }}
+    #   with:
+    #     path: action-check-version-changed-rust.since_commit.hash
+    #     key: action-check-version-changed-rust.since_commit.hash
