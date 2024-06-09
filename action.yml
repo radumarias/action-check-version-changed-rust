@@ -5,11 +5,15 @@ branding:
   icon: activity
   color: black
 
-# inputs:
+inputs:
 #  type:
 #    description: The project language, currently only `rust` is supported
 #    required: true
 #    type: string
+  gh_token:
+    description: secrets.GITHUB_TOKEN used to save since_commit to cache
+    type: string
+    required: true
 outputs:
   changed:
     description: 'If the version has changed (type: bool)'
