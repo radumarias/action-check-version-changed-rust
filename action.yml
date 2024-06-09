@@ -116,7 +116,8 @@ runs:
         done
       env:
         GH_TOKEN: ${{ github.token }}
-        REPO: ${{ github.repository }}          
+        REPO: ${{ github.repository }}
+      shell: bash
           
     - name: Save since_commit
       uses: actions/cache/save@v4
