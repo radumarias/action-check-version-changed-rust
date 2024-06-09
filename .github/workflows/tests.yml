@@ -23,7 +23,7 @@ jobs:
       - id: check_version
         uses: radumarias/action-check-version-changed-rust@main
         with:
-          gh_token: ${{ secrets.GITHUB_TOKEN }}
+          gh_token: ${{ secrets.PAT_TOKEN }}
 
       - name: delete from cache
         run: |
