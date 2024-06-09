@@ -38,6 +38,8 @@ runs:
 
     - id: check_version
       run: |
+        git pull --unshallow
+
         get_old_version_from_commit() {
           commit=$1
           git show ${commit} Cargo.toml | grep '^-version\s*=' | sed 's/^-version\s*=\s*"\(.*\)"/\1/'
