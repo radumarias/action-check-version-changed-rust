@@ -105,17 +105,8 @@ runs:
     - name: Delete since_commit from cache
       run: |
         gh extension install actions/gh-actions-cache
-
-        echo "Fetching list of cache key"
-        cacheKeys=$(gh actions-cache list -R $REPO --key action-check-version-changed-rust_since_commit -L 100 | cut -f 1 )
-
-        ## Setting this to not fail the workflow while deleting cache keys.
-        set +e
-        for cacheKey in $cacheKeys
-        do
-          echo "Deleting key from cache"
-          gh actions-cache delete $cacheKey -R $REPO --key action-check-version-changed-rust_since_commit --confirm
-        done
+        echo "Deleting key from cache"
+        gh actions-cache delete action-check-version-changed-rust_since_commit -R $REPO --confirm
         echo "Done"
       env:
         GH_TOKEN: ${{ inputs.gh_token }}
