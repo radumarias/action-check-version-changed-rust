@@ -29,7 +29,7 @@ runs:
 #      run: exit 1      
       
     - name: Cache since_commit
-      uses: actions/cache/restore@v3
+      uses: actions/cache/restore@v4
       env:
         cache-name: ${{ github.event.repository.name }}
       with:
