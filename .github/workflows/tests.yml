@@ -27,6 +27,8 @@ jobs:
 
       - name: delete from cache
         run: |
+          gh extension install actions/gh-actions-cache
+          
           echo "Fetching list of cache key"
           cacheKeys=$(gh actions-cache list -R $REPO --key action-check-version-changed-rust_since_commit -L 100 | cut -f 1 )
           ## Setting this to not fail the workflow while deleting cache keys.
