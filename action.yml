@@ -33,7 +33,7 @@ runs:
       uses: actions/cache@v4
       with:
         path: action-check-version-changed-rust.since_commit.hash
-        key: action-check-version-changed-rust.since_commit.hash
+        key: ${{ github.event.repository.name }}_action-check-version-changed-rust.since_commit.hash
 
     - id: check_version
       run: |
@@ -95,3 +95,10 @@ runs:
         echo "save last_commit $last_commit"
         echo $last_commit > action-check-version-changed-rust.since_commit.hash
       shell: bash
+
+    - name: Save since_commit
+      id: cache-primes-save
+      uses: actions/cache/save@v4
+      with:
+        path: action-check-version-changed-rust.since_commit.hash
+        key: ${{ github.event.repository.name }}_action-check-version-changed-rust.since_commit.hash
