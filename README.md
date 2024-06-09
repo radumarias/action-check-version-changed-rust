@@ -41,10 +41,6 @@ An example of such a workflow could be this:
 | version | string | The current version in version file
 | prev_version | string | Last release version
 
-# Since commit
-
-
-
 # Example
 
 ```yaml
