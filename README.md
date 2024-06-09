@@ -27,7 +27,7 @@ An example of such a workflow could be this:
 
 > [!WARNING]
 > **`GITHUB_TOKEN` need to have `Workflow Write permission`. For that got here (change `OWNER` and `REPO`) [https://github.com/OWNER/REPO/settings/actions](https://github.com/OWNER/REPO/settings/actions) and at the bottom in `Workflow permissions` section check `Read and write permissions`.**  
-> This is needed because we save the `since_commit` in the cache and it needs this permission to save the value between runs.
+> This is needed because it saves the `since_commit` in the cache and it needs that permission to save the value between runs.
 
 <!--
 # Inputs
