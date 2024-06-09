@@ -36,7 +36,7 @@ jobs:
           for cacheKey in $cacheKeys
           do
             echo "Deleting key from cache"
-            gh actions-cache delete $cacheKey -R $REPO --key action-check-version-changed-rust_since_commit --confirm
+            gh actions-cache delete $cacheKey -R $REPO --confirm
           done
         env:
           GH_TOKEN: ${{ github.token }}
