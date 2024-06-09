@@ -7,7 +7,7 @@ Not useful when you create releases manualy and trigger deploy/publish from the 
 
 When the step runs, at the end, it saves in the cache the last commit in repo as `since_commit` and the next time it runs it checks for version change since that commit.
 
-> [!WARNING]
+> [!WARNING]  
 > **If version is changed and you have 2 workflows that triger on push that inside are using this action, only first one that runs the check version step will see the version change, the second one will NOT, please keep this in mind when you design your workflows.**
 
 When running the step for the first time, as we dont' have `since_commit` saved, it will compare the verison with latest release tag.
@@ -25,6 +25,10 @@ An example of such a workflow could be this:
 
 ![workflow](https://github.com/radumarias/action-check-version-changed-rust/blob/main/workflow.jpeg?raw=true)
 
+> [!WARNING]
+> **`GITHUB_TOKEN` need to have `Workflow Write permission`. For that got here (change `<OWNER>` and `<REPO>`) [https://github.com/<OWNER>/<REPO>/settings/actions](https://github.com/<OWNER>/<REPO>/settings/actions) and at the bottom in `Workflow permissions` section check `Read and write permissions`.
+> This is needed because we save the `since_commit` in the cache and it needs this permission to save the value between runs.
+
 <!--
 # Inputs
 
@@ -33,7 +37,9 @@ An example of such a workflow could be this:
 | type | string | true | Suported values [rust]. In future we might extend to other languages, also we could expose a `version_file` and `version_pattern` to be more extensible
 -->
 
-# Outputs
+# Usage
+
+## Outputs
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
@@ -41,7 +47,7 @@ An example of such a workflow could be this:
 | version | string | The current version in version file
 | prev_version | string | Last release version
 
-# Example
+## Example
 
 ```yaml
     - id: check_version
@@ -53,7 +59,7 @@ An example of such a workflow could be this:
         echo "Version has changed ${{ steps.check_version.outputs.changed }}"
 ```
 
-# Conditional step
+## Conditional step
 
 ```yaml
     - id: check_version
@@ -64,7 +70,7 @@ An example of such a workflow could be this:
       run: echo "Version has changed from ${{ steps.check_version.outputs.prev_version }} to ${{ steps.check_version.outputs.version }}"
 ```
 
-# Conditional job
+## Conditional job
 
 ```yaml
 jobs:
