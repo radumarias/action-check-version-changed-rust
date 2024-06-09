@@ -33,8 +33,7 @@ runs:
 #      run: exit 1      
       
     - name: Cache since_commit
-      id: cache-primes
-      uses: actions/cache@v4
+      uses: actions/cache/restore@v3
       env:
         cache-name: ${{ github.event.repository.name }}
       with:
@@ -102,28 +101,27 @@ runs:
         echo $last_commit > action-check-version-changed-rust_since_commit
       shell: bash
 
-    - name: Delete since_commit from cache
-      run: |
-        # gh extension install actions/gh-actions-cache
-        echo "Deleting key from cache"
-        # gh actions-cache delete action-check-version-changed-rust_since_commit -R $REPO --confirm
-        curl -L \
-          -X DELETE \
-          -H "Accept: application/vnd.github+json" \
-          -H "Authorization: Bearer $GH_TOKEN" \
-          -H "X-GitHub-Api-Version: 2022-11-28" \
-          "https://api.github.com/repos/$REPO/actions/caches?key=action-check-version-changed-rust_since_commit"
-        echo "Done"
-      env:
-        GH_TOKEN: ${{ github.token }}
-        REPO: ${{ github.repository }}
-      shell: bash
-          
-    # - name: Save since_commit
-    #   id: cache-primes-save
-    #   uses: actions/cache/save@v4
+    # - name: Delete since_commit from cache
+    #   run: |
+    #     # gh extension install actions/gh-actions-cache
+    #     echo "Deleting key from cache"
+    #     # gh actions-cache delete action-check-version-changed-rust_since_commit -R $REPO --confirm
+    #     curl -L \
+    #       -X DELETE \
+    #       -H "Accept: application/vnd.github+json" \
+    #       -H "Authorization: Bearer $GH_TOKEN" \
+    #       -H "X-GitHub-Api-Version: 2022-11-28" \
+    #       "https://api.github.com/repos/$REPO/actions/caches?key=action-check-version-changed-rust_since_commit"
+    #     echo "Done"
     #   env:
-    #     cache-name: ${{ github.event.repository.name }}
-    #   with:
-    #     path: action-check-version-changed-rust_since_commit
-    #     key: action-check-version-changed-rust_since_commit
+    #     GH_TOKEN: ${{ github.token }}
+    #     REPO: ${{ github.repository }}
+    #   shell: bash
+          
+    - name: Save since_commit
+      uses: actions/cache/save@v4
+      env:
+        cache-name: ${{ github.event.repository.name }}
+      with:
+        path: action-check-version-changed-rust_since_commit
+        key: action-check-version-changed-rust_since_commit
