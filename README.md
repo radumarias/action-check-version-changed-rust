@@ -66,7 +66,7 @@ An example of such a workflow could be this:
       uses: radumarias/action-check-version-changed-rust@v1
 
     - name: Execute if version has changed
-      if: ${{ steps.check_version.outputs.changed }}
+      if: steps.check_version.outputs.changed
       run: echo "Version has changed from ${{ steps.check_version.outputs.prev_version }} to ${{ steps.check_version.outputs.version }}"
 ```
 
@@ -91,7 +91,7 @@ jobs:
   conditional_job:
     name: Conditonal
     needs: [check_version]
-    if: ${{ needs.check_version.outputs.changed }}
+    if: needs.check_version.outputs.changed
     runs-on: ubuntu-latest
 
     steps:
