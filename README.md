@@ -43,7 +43,7 @@ An example of such a workflow could be this:
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| changed | bool | If the version has changed
+| changed | string | If the version has changed ('true' / 'false')
 | version | string | The current version in version file
 | prev_version | string | Last release version
 
@@ -66,7 +66,7 @@ An example of such a workflow could be this:
       uses: radumarias/action-check-version-changed-rust@v1
 
     - name: Execute if version has changed
-      if: steps.check_version.outputs.changed
+      if: steps.check_version.outputs.changed = 'true'
       run: echo "Version has changed from ${{ steps.check_version.outputs.prev_version }} to ${{ steps.check_version.outputs.version }}"
 ```
 
@@ -91,7 +91,7 @@ jobs:
   conditional_job:
     name: Conditonal
     needs: [check_version]
-    if: needs.check_version.outputs.changed
+    if: steps.check_version.outputs.changed = 'true'
     runs-on: ubuntu-latest
 
     steps:
