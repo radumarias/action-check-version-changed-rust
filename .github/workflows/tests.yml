@@ -30,7 +30,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: touch 42
+      - run: |
+          echo "changed = ${{ needs.check_version.outputs.changed }}"
+          touch 42
       
       - name: Upload a file to mark that job executed
         uses: actions/upload-artifact@v4
