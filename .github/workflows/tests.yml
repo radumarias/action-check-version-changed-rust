@@ -26,7 +26,7 @@ jobs:
   conditional_job:
     name: Conditonal job
     needs: [check_version]
-    if: ${{ needs.check_version.outputs.changed }}
+    if: ${{ needs.check_version.outputs.changed == 'false' }}
     runs-on: ubuntu-latest
 
     steps:
