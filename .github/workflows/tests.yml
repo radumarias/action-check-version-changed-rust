@@ -78,7 +78,7 @@ jobs:
 
       - name: Test conditional step
         run: |
-          if [ ${{ steps.conditional_step.outputs.executed }} != 'true' ]; then
+          if [ '${{ steps.conditional_step.outputs.executed }}' != 'true' ]; then
             exit 1
           fi
 
