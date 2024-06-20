@@ -73,7 +73,7 @@ jobs:
 
       - name: Conditional step
         id: conditional_step
-        if: steps.check_version.outputs.changed = 'false'
+        if: steps.check_version.outputs.changed == 'false'
         run: echo "executed=true" >> $GITHUB_OUTPUT
 
       - name: Test conditional step
