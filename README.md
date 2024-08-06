@@ -98,3 +98,12 @@ jobs:
       - name: Version changed
         run: echo "Version has changed from ${{ steps.check_version.outputs.prev_version }} to ${{ steps.check_version.outputs.version }}"
 ```
+
+# Contribute
+
+Feel free to fork it, change and use it in any way that you want.
+If you build something interesting and feel like sharing pull requests are always appreciated.
+
+## How to contribute
+
+Please see [CONTRIBUTING.md](CONTRIBUTING.md).
